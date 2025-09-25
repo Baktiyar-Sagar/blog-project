@@ -8,4 +8,4 @@ class PostForm(forms.ModelsForm):
 
 class CommentForm(forms.ModelForm):
     model = Comment
-    fields = ['content', '']
+    fields = ['content']
