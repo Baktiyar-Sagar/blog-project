@@ -1,0 +1,37 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-2">{{ post.title }}</h1>
+    <p class="text-sm text-gray-500 mb-4">Views: {{ post.view_count }} • Likes: {{ like_count }}</p>
+    <div class="prose max-w-none mb-6">{{ post.content|safe }}</div>
+    <div class="flex gap-2 mb-6">
+        {% if is_liked %}
+            <a href="{% url 'like_post' post.id %}" class="btn btn-error btn-sm">Unlike 👎</a>
+        {% else %}
+            <a href="{% url 'like_post' post.id %}" class="btn btn-primary btn-sm">Like 👍</a>
+        {% endif %}
+    </div>
+    <h2 class="text-xl font-semibold mb-3">Comments</h2>
+    <div class="space-y-4">
+        {% for comment in comments %}
+            <div class="p-3 border rounded">
+                <p class="text-lg font-semibold">{{ comment.user.username }} <br><span class="text-sm text-gray-400">{{ comment.created_at }}</span></p>
+                <p>{{ comment.content|safe }}</p>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+        <form method="post" class="mt-6 space-y-3">
+            {% csrf_token %}
+            {{form.media}}{{comment_form | crispy}}    
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    {% else %}
+        <p class="mt-4 text-gray-600">Please <a href="{% url 'login' %}" class="link">login</a> to comment.</p>
+    {% endif %}
+</div>
+{% endblock %}

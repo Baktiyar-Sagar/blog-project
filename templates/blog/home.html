@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="text-center py-20">
+    <h1 class="text-4xl font-bold mb-4">Welcome to My Blog 🚀</h1>
+    <p class="text-gray-600">A place to share ideas, stories, and tutorials.</p>
+    <a href="{% url 'post_list' %}" class="btn btn-primary mt-6">View Posts</a>
+</div>
+{% endblock %}
