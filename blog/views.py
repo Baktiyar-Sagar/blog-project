@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from .models import Post, Category, Tag, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -9,7 +10,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-@login_required
+
 def post_list(request):
     categoryQ = request.GET.get('category')
     tagQ = request.GET.get('tag')
@@ -30,7 +31,7 @@ def post_list(request):
             Q(category__name__icontains = searchQ)
         ).distinct()
     # pagination
-    paginator = Paginator(posts, 4) # per page 4 post
+    paginator = Paginator(posts, 6) # per page 6 post
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
     context = {
@@ -43,7 +44,7 @@ def post_list(request):
     }
     return render(request, 'blog/post_list.html', context)
 
-@login_required
+
 def post_details(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == 'POST':
@@ -92,6 +93,7 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            print(post)
             post.save()
             return redirect('post_list')
     else: 
@@ -116,7 +118,8 @@ def post_update(request, id):
 def post_delete(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
-    return redirect('post_list')
+    return redirect(reverse('profile') + '?section=posts')
+    # return redirect('profile')
 
 
 

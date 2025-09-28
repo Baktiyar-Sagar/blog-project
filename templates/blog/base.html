@@ -24,7 +24,12 @@
                     </label>
                     <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-white rounded-box w-52">
                         <li><a href="{% url 'profile' %}" class="btn btn-sm btn-soft btn-accent w-full">Profile</a></li>
-                        <li><a href="{% url 'logout' %}" class="btn btn-sm btn-soft btn-error w-full">Logout</a></li>
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn w-full btn-sm btn-soft btn-error text-left px-4 py-2">
+                                Logout
+                            </button>
+                        </form>
                     </ul>
                 </div>
             {% else %}
@@ -35,13 +40,13 @@
 </nav>
 
 
-    <main class=" container flex-grow bg-gray-50 mx-auto p-6">
+    <main class=" container flex-grow bg-[#F9F5F0] mx-auto p-6">
         {% block content %}
 
         {% endblock %}
     </main>
 
-    <footer class=" mt-auto footer footer-center p-4 bg-base-200 text-base-content">
+    <footer class=" mt-auto footer footer-center p-4 bg-gradient-to-r from-[#046169] to-[#217b7e] text-base-content">
         <p>© 2025 My Blog - All rights reserved</p>
     </footer>
 </body>

@@ -43,10 +43,10 @@
 
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     {% for post in page_object %}
-        <div class="card bg-base-100 shadow">
+        <div class="card bg-base-100 shadow-lg">
             <div class="card-body">
                 <h3 class="card-title">{{ post.title }}</h3>
-                <p class="text-gray-400 font-semibold italic">By- {{ user.first_name }} {{user.last_name}}</p>
+                <p class="text-gray-400 font-semibold italic">By- {{ post.author }}</p>
                 <p class="text-sm text-gray-600 mt-2">Tags: {% for tag in post.tag.all %}
                                                                     <span class="badge badge-outline badge-primary">{{ tag.name }}</span>
                                                                     {% empty %}
@@ -54,7 +54,10 @@
                                                                     {% endfor %} </p>
                 <p class="line-clamp-3">{{ post.content|safe|truncatewords:40 }}</p>
                 <div class="card-actions justify-between mt-4">
+                    <div class="flex items-center gap-2 ">
                     <a href="{% url 'post_details' post.id %}" class="btn btn-sm btn-outline">Read More</a>
+                    <p class="text-sm text-gray-500">Views: {{ post.view_count }} • Likes: {{ post.liked_users.count }}</p>
+                    </div>
                     <span class="badge badge-success ">{{ post.category.name }}</span>
                 </div>
             </div>
@@ -63,7 +66,8 @@
         <p>No posts found.</p>
     {% endfor %}
 </div>
-<div class="flex justify-center mt-6">
+
+<div class=" flex justify-center mt-6">
     <div class="join">
         {% if page_object.has_previous %}
             <a class="join-item btn" href="?page={{ page_object.previous_page_number }}">«</a>
