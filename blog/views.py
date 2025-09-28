@@ -116,7 +116,7 @@ def post_update(request, id):
 def post_delete(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
-    return redirect('post_delete')
+    return redirect('post_list')
 
 
 
