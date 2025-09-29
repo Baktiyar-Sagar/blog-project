@@ -93,8 +93,8 @@ def post_create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            print(post)
             post.save()
+            form.save_m2m() # we use this if the form has many to many field 
             return redirect('post_list')
     else: 
         form = PostForm()
