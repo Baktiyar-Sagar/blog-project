@@ -44,13 +44,19 @@
                                                                         No tags
                                                                     {% endfor %} </p>
                     </div>
-                    <div class="flex gap-2 mt-4">
-                        <a href="{% url 'post_details' post.id %}" class="btn btn-sm btn-outline">Read More</a>
-                        <a href="{% url 'post_update' post.id %}" class="btn btn-sm btn-outline hover:bg-blue-500">✏️Edit</a>
-                        <a href="{% url 'post_delete' post.id %}" class="btn btn-sm btn-error"
-                           onclick="return confirm('Are you sure you want to delete this post?');">
-                           🗑️Delete
-                        </a>
+                    <div class="flex justify-between items-end">
+                        <div class="flex gap-2 mt-4">
+                            <a href="{% url 'post_details' post.id %}" class="btn btn-sm btn-outline">Read More</a>
+                            <a href="{% url 'post_update' post.id %}" class="btn btn-sm btn-outline hover:bg-blue-500">✏️Edit</a>
+                            <a href="{% url 'post_delete' post.id %}" class="btn btn-sm btn-error"
+                            onclick="return confirm('Are you sure you want to delete this post?');">🗑️Delete</a>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Created: {{ post.created_at|date:"M d, Y H:i" }}</span>
+                            {% if post.was_updated %}
+                                <span class="text-sm ms-2 text-green-600">Updated: {{ post.update_at|date:"M d, Y H:i" }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% empty %}
